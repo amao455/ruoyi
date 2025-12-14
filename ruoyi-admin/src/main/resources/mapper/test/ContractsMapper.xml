@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.test.mapper.ContractsMapper">
+    
+    <resultMap type="Contracts" id="ContractsResult">
+        <result property="contractId"    column="contract_id"    />
+        <result property="secondaryUnitName"    column="secondary_unit_name"    />
+        <result property="clientName"    column="client_name"    />
+        <result property="contractName"    column="contract_name"    />
+        <result property="projectCode"    column="project_code"    />
+        <result property="region"    column="region"    />
+        <result property="clientType"    column="client_type"    />
+        <result property="clientCreditLevel"    column="client_credit_level"    />
+        <result property="contractAmount"    column="contract_amount"    />
+        <result property="confirmedRevenue"    column="confirmed_revenue"    />
+        <result property="returnedAmount"    column="returned_amount"    />
+        <result property="unconfirmedRevenue"    column="unconfirmed_revenue"    />
+        <result property="revenueConfirmationDate"    column="revenue_confirmation_date"    />
+        <result property="confirmedAfterInvoice"    column="confirmed_after_invoice"    />
+        <result property="recoveredAmount"    column="recovered_amount"    />
+        <result property="accountsReceivableBalance"    column="accounts_receivable_balance"    />
+        <result property="arWithin1Year"    column="ar_within_1_year"    />
+        <result property="ar1To2Years"    column="ar_1_to_2_years"    />
+        <result property="ar2To3Years"    column="ar_2_to_3_years"    />
+        <result property="ar3To4Years"    column="ar_3_to_4_years"    />
+        <result property="ar4To5Years"    column="ar_4_to_5_years"    />
+        <result property="ar5PlusYears"    column="ar_5_plus_years"    />
+        <result property="overdueAr"    column="overdue_ar"    />
+        <result property="overdueAr3Years"    column="overdue_ar_3_years"    />
+        <result property="responsiblePerson"    column="responsible_person"    />
+        <result property="secondaryUnitPerson"    column="secondary_unit_person"    />
+        <result property="reconciliationSent"    column="reconciliation_sent"    />
+        <result property="reconciliationReceived"    column="reconciliation_received"    />
+        <result property="litigationStatus"    column="litigation_status"    />
+        <result property="reconciliationMatch"    column="reconciliation_match"    />
+        <result property="agreedPaymentDate"    column="agreed_payment_date"    />
+        <result property="projectClassificationName"    column="project_classification_name"    />
+        <result property="contractAssetAccountName"    column="contract_asset_account_name"    />
+        <result property="contractAssetEndingBalance"    column="contract_asset_ending_balance"    />
+        <result property="insertDate"    column="insert_date"    />
+    </resultMap>
+
+    <sql id="selectContractsVo">
+        select contract_id, secondary_unit_name, client_name, contract_name, project_code, region, client_type, client_credit_level, contract_amount, confirmed_revenue, returned_amount, unconfirmed_revenue, revenue_confirmation_date, confirmed_after_invoice, recovered_amount, accounts_receivable_balance, ar_within_1_year, ar_1_to_2_years, ar_2_to_3_years, ar_3_to_4_years, ar_4_to_5_years, ar_5_plus_years, overdue_ar, overdue_ar_3_years, responsible_person, secondary_unit_person, reconciliation_sent, reconciliation_received, litigation_status, reconciliation_match, agreed_payment_date, project_classification_name, contract_asset_account_name, contract_asset_ending_balance, insert_date from contracts
+    </sql>
+
+    <select id="selectContractsList" parameterType="Contracts" resultMap="ContractsResult">
+        <include refid="selectContractsVo"/>
+        <where>  
+            <if test="secondaryUnitName != null  and secondaryUnitName != ''"> and secondary_unit_name like concat('%', #{secondaryUnitName}, '%')</if>
+            <if test="clientName != null  and clientName != ''"> and client_name like concat('%', #{clientName}, '%')</if>
+            <if test="contractName != null  and contractName != ''"> and contract_name like concat('%', #{contractName}, '%')</if>
+            <if test="projectCode != null  and projectCode != ''"> and project_code = #{projectCode}</if>
+            <if test="region != null  and region != ''"> and region = #{region}</if>
+            <if test="clientType != null  and clientType != ''"> and client_type = #{clientType}</if>
+            <if test="clientCreditLevel != null  and clientCreditLevel != ''"> and client_credit_level = #{clientCreditLevel}</if>
+            <if test="contractAmount != null "> and contract_amount = #{contractAmount}</if>
+            <if test="confirmedRevenue != null "> and confirmed_revenue = #{confirmedRevenue}</if>
+            <if test="returnedAmount != null "> and returned_amount = #{returnedAmount}</if>
+            <if test="unconfirmedRevenue != null "> and unconfirmed_revenue = #{unconfirmedRevenue}</if>
+            <if test="revenueConfirmationDate != null  and revenueConfirmationDate != ''"> and revenue_confirmation_date = #{revenueConfirmationDate}</if>
+            <if test="confirmedAfterInvoice != null "> and confirmed_after_invoice = #{confirmedAfterInvoice}</if>
+            <if test="recoveredAmount != null "> and recovered_amount = #{recoveredAmount}</if>
+            <if test="accountsReceivableBalance != null "> and accounts_receivable_balance = #{accountsReceivableBalance}</if>
+            <if test="arWithin1Year != null "> and ar_within_1_year = #{arWithin1Year}</if>
+            <if test="ar1To2Years != null "> and ar_1_to_2_years = #{ar1To2Years}</if>
+            <if test="ar2To3Years != null "> and ar_2_to_3_years = #{ar2To3Years}</if>
+            <if test="ar3To4Years != null "> and ar_3_to_4_years = #{ar3To4Years}</if>
+            <if test="ar4To5Years != null "> and ar_4_to_5_years = #{ar4To5Years}</if>
+            <if test="ar5PlusYears != null "> and ar_5_plus_years = #{ar5PlusYears}</if>
+            <if test="overdueAr != null "> and overdue_ar = #{overdueAr}</if>
+            <if test="overdueAr3Years != null "> and overdue_ar_3_years = #{overdueAr3Years}</if>
+            <if test="responsiblePerson != null  and responsiblePerson != ''"> and responsible_person = #{responsiblePerson}</if>
+            <if test="secondaryUnitPerson != null  and secondaryUnitPerson != ''"> and secondary_unit_person = #{secondaryUnitPerson}</if>
+            <if test="reconciliationSent != null "> and reconciliation_sent = #{reconciliationSent}</if>
+            <if test="reconciliationReceived != null "> and reconciliation_received = #{reconciliationReceived}</if>
+            <if test="litigationStatus != null  and litigationStatus != ''"> and litigation_status = #{litigationStatus}</if>
+            <if test="reconciliationMatch != null  and reconciliationMatch != ''"> and reconciliation_match = #{reconciliationMatch}</if>
+            <if test="agreedPaymentDate != null  and agreedPaymentDate != ''"> and agreed_payment_date = #{agreedPaymentDate}</if>
+            <if test="projectClassificationName != null  and projectClassificationName != ''"> and project_classification_name like concat('%', #{projectClassificationName}, '%')</if>
+            <if test="contractAssetAccountName != null  and contractAssetAccountName != ''"> and contract_asset_account_name like concat('%', #{contractAssetAccountName}, '%')</if>
+            <if test="contractAssetEndingBalance != null "> and contract_asset_ending_balance = #{contractAssetEndingBalance}</if>
+            <if test="insertDate != null "> and insert_date = #{insertDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectContractsByContractId" parameterType="Long" resultMap="ContractsResult">
+        <include refid="selectContractsVo"/>
+        where contract_id = #{contractId}
+    </select>
+
+    <insert id="insertContracts" parameterType="Contracts" useGeneratedKeys="true" keyProperty="contractId">
+        insert into contracts
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="secondaryUnitName != null and secondaryUnitName != ''">secondary_unit_name,</if>
+            <if test="clientName != null and clientName != ''">client_name,</if>
+            <if test="contractName != null and contractName != ''">contract_name,</if>
+            <if test="projectCode != null">project_code,</if>
+            <if test="region != null">region,</if>
+            <if test="clientType != null">client_type,</if>
+            <if test="clientCreditLevel != null">client_credit_level,</if>
+            <if test="contractAmount != null">contract_amount,</if>
+            <if test="confirmedRevenue != null">confirmed_revenue,</if>
+            <if test="returnedAmount != null">returned_amount,</if>
+            <if test="unconfirmedRevenue != null">unconfirmed_revenue,</if>
+            <if test="revenueConfirmationDate != null">revenue_confirmation_date,</if>
+            <if test="confirmedAfterInvoice != null">confirmed_after_invoice,</if>
+            <if test="recoveredAmount != null">recovered_amount,</if>
+            <if test="accountsReceivableBalance != null">accounts_receivable_balance,</if>
+            <if test="arWithin1Year != null">ar_within_1_year,</if>
+            <if test="ar1To2Years != null">ar_1_to_2_years,</if>
+            <if test="ar2To3Years != null">ar_2_to_3_years,</if>
+            <if test="ar3To4Years != null">ar_3_to_4_years,</if>
+            <if test="ar4To5Years != null">ar_4_to_5_years,</if>
+            <if test="ar5PlusYears != null">ar_5_plus_years,</if>
+            <if test="overdueAr != null">overdue_ar,</if>
+            <if test="overdueAr3Years != null">overdue_ar_3_years,</if>
+            <if test="responsiblePerson != null">responsible_person,</if>
+            <if test="secondaryUnitPerson != null">secondary_unit_person,</if>
+            <if test="reconciliationSent != null">reconciliation_sent,</if>
+            <if test="reconciliationReceived != null">reconciliation_received,</if>
+            <if test="litigationStatus != null">litigation_status,</if>
+            <if test="reconciliationMatch != null">reconciliation_match,</if>
+            <if test="agreedPaymentDate != null">agreed_payment_date,</if>
+            <if test="projectClassificationName != null">project_classification_name,</if>
+            <if test="contractAssetAccountName != null">contract_asset_account_name,</if>
+            <if test="contractAssetEndingBalance != null">contract_asset_ending_balance,</if>
+            <if test="insertDate != null">insert_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="secondaryUnitName != null and secondaryUnitName != ''">#{secondaryUnitName},</if>
+            <if test="clientName != null and clientName != ''">#{clientName},</if>
+            <if test="contractName != null and contractName != ''">#{contractName},</if>
+            <if test="projectCode != null">#{projectCode},</if>
+            <if test="region != null">#{region},</if>
+            <if test="clientType != null">#{clientType},</if>
+            <if test="clientCreditLevel != null">#{clientCreditLevel},</if>
+            <if test="contractAmount != null">#{contractAmount},</if>
+            <if test="confirmedRevenue != null">#{confirmedRevenue},</if>
+            <if test="returnedAmount != null">#{returnedAmount},</if>
+            <if test="unconfirmedRevenue != null">#{unconfirmedRevenue},</if>
+            <if test="revenueConfirmationDate != null">#{revenueConfirmationDate},</if>
+            <if test="confirmedAfterInvoice != null">#{confirmedAfterInvoice},</if>
+            <if test="recoveredAmount != null">#{recoveredAmount},</if>
+            <if test="accountsReceivableBalance != null">#{accountsReceivableBalance},</if>
+            <if test="arWithin1Year != null">#{arWithin1Year},</if>
+            <if test="ar1To2Years != null">#{ar1To2Years},</if>
+            <if test="ar2To3Years != null">#{ar2To3Years},</if>
+            <if test="ar3To4Years != null">#{ar3To4Years},</if>
+            <if test="ar4To5Years != null">#{ar4To5Years},</if>
+            <if test="ar5PlusYears != null">#{ar5PlusYears},</if>
+            <if test="overdueAr != null">#{overdueAr},</if>
+            <if test="overdueAr3Years != null">#{overdueAr3Years},</if>
+            <if test="responsiblePerson != null">#{responsiblePerson},</if>
+            <if test="secondaryUnitPerson != null">#{secondaryUnitPerson},</if>
+            <if test="reconciliationSent != null">#{reconciliationSent},</if>
+            <if test="reconciliationReceived != null">#{reconciliationReceived},</if>
+            <if test="litigationStatus != null">#{litigationStatus},</if>
+            <if test="reconciliationMatch != null">#{reconciliationMatch},</if>
+            <if test="agreedPaymentDate != null">#{agreedPaymentDate},</if>
+            <if test="projectClassificationName != null">#{projectClassificationName},</if>
+            <if test="contractAssetAccountName != null">#{contractAssetAccountName},</if>
+            <if test="contractAssetEndingBalance != null">#{contractAssetEndingBalance},</if>
+            <if test="insertDate != null">#{insertDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateContracts" parameterType="Contracts">
+        update contracts
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="secondaryUnitName != null and secondaryUnitName != ''">secondary_unit_name = #{secondaryUnitName},</if>
+            <if test="clientName != null and clientName != ''">client_name = #{clientName},</if>
+            <if test="contractName != null and contractName != ''">contract_name = #{contractName},</if>
+            <if test="projectCode != null">project_code = #{projectCode},</if>
+            <if test="region != null">region = #{region},</if>
+            <if test="clientType != null">client_type = #{clientType},</if>
+            <if test="clientCreditLevel != null">client_credit_level = #{clientCreditLevel},</if>
+            <if test="contractAmount != null">contract_amount = #{contractAmount},</if>
+            <if test="confirmedRevenue != null">confirmed_revenue = #{confirmedRevenue},</if>
+            <if test="returnedAmount != null">returned_amount = #{returnedAmount},</if>
+            <if test="unconfirmedRevenue != null">unconfirmed_revenue = #{unconfirmedRevenue},</if>
+            <if test="revenueConfirmationDate != null">revenue_confirmation_date = #{revenueConfirmationDate},</if>
+            <if test="confirmedAfterInvoice != null">confirmed_after_invoice = #{confirmedAfterInvoice},</if>
+            <if test="recoveredAmount != null">recovered_amount = #{recoveredAmount},</if>
+            <if test="accountsReceivableBalance != null">accounts_receivable_balance = #{accountsReceivableBalance},</if>
+            <if test="arWithin1Year != null">ar_within_1_year = #{arWithin1Year},</if>
+            <if test="ar1To2Years != null">ar_1_to_2_years = #{ar1To2Years},</if>
+            <if test="ar2To3Years != null">ar_2_to_3_years = #{ar2To3Years},</if>
+            <if test="ar3To4Years != null">ar_3_to_4_years = #{ar3To4Years},</if>
+            <if test="ar4To5Years != null">ar_4_to_5_years = #{ar4To5Years},</if>
+            <if test="ar5PlusYears != null">ar_5_plus_years = #{ar5PlusYears},</if>
+            <if test="overdueAr != null">overdue_ar = #{overdueAr},</if>
+            <if test="overdueAr3Years != null">overdue_ar_3_years = #{overdueAr3Years},</if>
+            <if test="responsiblePerson != null">responsible_person = #{responsiblePerson},</if>
+            <if test="secondaryUnitPerson != null">secondary_unit_person = #{secondaryUnitPerson},</if>
+            <if test="reconciliationSent != null">reconciliation_sent = #{reconciliationSent},</if>
+            <if test="reconciliationReceived != null">reconciliation_received = #{reconciliationReceived},</if>
+            <if test="litigationStatus != null">litigation_status = #{litigationStatus},</if>
+            <if test="reconciliationMatch != null">reconciliation_match = #{reconciliationMatch},</if>
+            <if test="agreedPaymentDate != null">agreed_payment_date = #{agreedPaymentDate},</if>
+            <if test="projectClassificationName != null">project_classification_name = #{projectClassificationName},</if>
+            <if test="contractAssetAccountName != null">contract_asset_account_name = #{contractAssetAccountName},</if>
+            <if test="contractAssetEndingBalance != null">contract_asset_ending_balance = #{contractAssetEndingBalance},</if>
+            <if test="insertDate != null">insert_date = #{insertDate},</if>
+        </trim>
+        where contract_id = #{contractId}
+    </update>
+
+    <delete id="deleteContractsByContractId" parameterType="Long">
+        delete from contracts where contract_id = #{contractId}
+    </delete>
+
+    <delete id="deleteContractsByContractIds" parameterType="String">
+        delete from contracts where contract_id in 
+        <foreach item="contractId" collection="array" open="(" separator="," close=")">
+            #{contractId}
+        </foreach>
+    </delete>
+
+
+</mapper>
