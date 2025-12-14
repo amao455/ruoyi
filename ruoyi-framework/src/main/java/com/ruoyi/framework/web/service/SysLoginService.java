@@ -172,7 +172,7 @@ public class SysLoginService
     }
 
     /**
-     * 记录登录信息
+     * 记录登录信息，用于维护用户的最新登录状态信息
      *
      * @param userId 用户ID
      */

@@ -154,7 +154,7 @@ public class TokenService
     }
 
     /**
-     * 设置用户代理信息
+     * 设置用户代理信息（搜集登录用户的相关环境信息）
      *
      * @param loginUser 登录信息
      */
