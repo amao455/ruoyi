@@ -40,7 +40,7 @@ logging:
 # 用户配置
 user:
   password:
-    # 密码最大错误次数
+    # 用户登录时，尝试输入密码最大错误次数
     maxRetryCount: 5
     # 密码锁定时间（默认10分钟）
     lockTime: 10
@@ -74,7 +74,7 @@ spring:
     # 数据库索引
     database: 0
     # 密码
-    password: 123456
+#    password: 123456
     # 连接超时时间
     timeout: 10s
     lettuce:
@@ -90,7 +90,7 @@ spring:
 
 # token配置
 token:
-  # 令牌自定义标识
+  # 令牌自定义标识（访问时请求头需要携带的）
   header: Authorization
   # 令牌密钥
   secret: abcdefghijklmnopqrstuvwxyz

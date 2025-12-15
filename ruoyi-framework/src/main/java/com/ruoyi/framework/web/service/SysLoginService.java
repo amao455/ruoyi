@@ -73,7 +73,7 @@ public class SysLoginService
         {
             // 创建认证令牌
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
-            // 设置认证上下文
+            // 设置认证上下文，为后续认证流程提供上下文信息（在用户验证时发挥作用）
             AuthenticationContextHolder.setContext(authenticationToken);
             // 该方法会去调用UserDetailsServiceImpl.loadUserByUsername，加载用户详情
             authentication = authenticationManager.authenticate(authenticationToken);
@@ -93,6 +93,7 @@ public class SysLoginService
         }
         finally
         {
+            // 清除认证上下文
             AuthenticationContextHolder.clearContext();
         }
         // 异步记录操作日志
@@ -173,7 +174,6 @@ public class SysLoginService
 
     /**
      * 记录登录信息，用于维护用户的最新登录状态信息
-     *
      * @param userId 用户ID
      */
     public void recordLoginInfo(Long userId)

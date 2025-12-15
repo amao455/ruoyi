@@ -34,7 +34,9 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter
         LoginUser loginUser = tokenService.getLoginUser(request);
         if (StringUtils.isNotNull(loginUser) && StringUtils.isNull(SecurityUtils.getAuthentication()))
         {
+            // 刷新令牌的过期时间
             tokenService.verifyToken(loginUser);
+            // todo 第三个参数权限可能没有使用
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginUser, null, loginUser.getAuthorities());
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);

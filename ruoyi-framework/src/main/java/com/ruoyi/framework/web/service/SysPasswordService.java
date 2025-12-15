@@ -41,24 +41,30 @@ public class SysPasswordService
         return CacheConstants.PWD_ERR_CNT_KEY + username;
     }
 
+    /**
+     * ，验证登录密码并管理密码错误尝试次数
+     * @param user
+     */
     public void validate(SysUser user)
     {
         Authentication usernamePasswordAuthenticationToken = AuthenticationContextHolder.getContext();
         String username = usernamePasswordAuthenticationToken.getName();
         String password = usernamePasswordAuthenticationToken.getCredentials().toString();
 
+        // 在redis中查询当前用户的错误尝试次数
         Integer retryCount = redisCache.getCacheObject(getCacheKey(username));
 
         if (retryCount == null)
         {
             retryCount = 0;
         }
-
+        // 输入密码次数达到上限次数，报错
         if (retryCount >= Integer.valueOf(maxRetryCount).intValue())
         {
             throw new UserPasswordRetryLimitExceedException(maxRetryCount, lockTime);
         }
 
+        // 判断当前登录用户的密码和数据库保存的密码是否一致（密码是加密状态）
         if (!matches(user, password))
         {
             retryCount = retryCount + 1;
@@ -67,10 +73,12 @@ public class SysPasswordService
         }
         else
         {
+            //匹配时，清空错误尝试次数
             clearLoginRecordCache(username);
         }
     }
 
+    // 井用户输入的密码和数据库保存的密码进行匹配
     public boolean matches(SysUser user, String rawPassword)
     {
         return SecurityUtils.matchesPassword(rawPassword, user.getPassword());

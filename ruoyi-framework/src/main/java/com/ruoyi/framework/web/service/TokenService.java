@@ -71,6 +71,7 @@ public class TokenService
                 // 解析对应的权限以及用户信息
                 String uuid = (String) claims.get(Constants.LOGIN_USER_KEY);
                 String userKey = getTokenKey(uuid);
+                // 从redis中获取当前用户的相关信息
                 LoginUser user = redisCache.getCacheObject(userKey);
                 return user;
             }
@@ -148,7 +149,7 @@ public class TokenService
     {
         loginUser.setLoginTime(System.currentTimeMillis());
         loginUser.setExpireTime(loginUser.getLoginTime() + expireTime * MILLIS_MINUTE);
-        // 根据uuid将loginUser缓存
+        // 根据uuid将loginUser缓存，加上了登录前缀
         String userKey = getTokenKey(loginUser.getToken());
         redisCache.setCacheObject(userKey, loginUser, expireTime, TimeUnit.MINUTES);
     }
@@ -169,7 +170,7 @@ public class TokenService
     }
 
     /**
-     * 从数据声明生成令牌
+     * 从数据声明生成令牌，创建安全的访问令牌
      *
      * @param claims 数据声明
      * @return 令牌
