@@ -26,6 +26,7 @@ import com.ruoyi.framework.security.handle.LogoutSuccessHandlerImpl;
  * 
  * @author ruoyi
  */
+// 开启访问权限控制
 @EnableMethodSecurity(prePostEnabled = true, securedEnabled = true)
 @Configuration
 public class SecurityConfig
@@ -119,6 +120,7 @@ public class SecurityConfig
                     .anyRequest().authenticated();
             })
             // 添加Logout filter
+            // 当前用户访问/logout路径时，应用将如何处理用户的登出请求，并在登出成功后调用指定的处理器完成后续操作
             .logout(logout -> logout.logoutUrl("/logout").logoutSuccessHandler(logoutSuccessHandler))
             // 添加JWT filter
             .addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)

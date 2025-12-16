@@ -49,7 +49,7 @@ public class ResourcesConfig implements WebMvcConfigurer
     }
 
     /**
-     * 跨域配置
+     * 跨域配置，Spring提供的专门处理跨域资源共享的过滤器
      */
     @Bean
     public CorsFilter corsFilter()

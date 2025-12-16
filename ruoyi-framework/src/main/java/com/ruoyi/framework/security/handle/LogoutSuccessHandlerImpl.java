@@ -48,6 +48,7 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler
             // 记录用户退出日志
             AsyncManager.me().execute(AsyncFactory.recordLogininfor(userName, Constants.LOGOUT, MessageUtils.message("user.logout.success")));
         }
+        // 向客户端返回JSON格式的成功信息
         ServletUtils.renderString(response, JSON.toJSONString(AjaxResult.success(MessageUtils.message("user.logout.success"))));
     }
 }

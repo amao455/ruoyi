@@ -26,6 +26,7 @@ public class PermissionService
      */
     public boolean hasPermi(String permission)
     {
+        // 参数为null返回false的原因：当权限标识为null时，系统采取保守策略，默认该用户没有该权限
         if (StringUtils.isEmpty(permission))
         {
             return false;
@@ -35,6 +36,8 @@ public class PermissionService
         {
             return false;
         }
+        // 设置权限上下文：将当前正在检车的权限字符串存储到PermissionContextHolder中
+        // 线程本地存储：基于ThreadLoacl的上下文持有者，用于在线程内传递权限信息
         PermissionContextHolder.setContext(permission);
         return hasPermissions(loginUser.getPermissions(), permission);
     }
