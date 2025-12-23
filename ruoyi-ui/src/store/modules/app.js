@@ -19,7 +19,7 @@ const mutations = {
     state.sidebar.withoutAnimation = false
     if (state.sidebar.opened) {
       Cookies.set('sidebarStatus', 1)
-    } else {
+    } else { 
       Cookies.set('sidebarStatus', 0)
     }
   },

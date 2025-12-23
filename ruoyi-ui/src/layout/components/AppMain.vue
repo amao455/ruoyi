@@ -1,7 +1,9 @@
+<!-- 整个应用内容展示的核心容器,负责渲染路由页并提供缓存和过滤效果 -->
 <template>
   <section class="app-main">
     <transition name="fade-transform" mode="out-in">
       <keep-alive :include="cachedViews">
+        <!-- 仅当当前路由的meta.link属性为false时才渲染，组件显示的位置-->
         <router-view v-if="!$route.meta.link" :key="key" />
       </keep-alive>
     </transition>
@@ -10,20 +12,20 @@
 </template>
 
 <script>
-import iframeToggle from "./IframeToggle/index"
+import iframeToggle from "./IframeToggle/index";
 
 export default {
-  name: 'AppMain',
+  name: "AppMain",
   components: { iframeToggle },
   computed: {
     cachedViews() {
-      return this.$store.state.tagsView.cachedViews
+      return this.$store.state.tagsView.cachedViews;
     },
     key() {
-      return this.$route.path
-    }
-  }
-}
+      return this.$route.path;
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

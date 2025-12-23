@@ -1,24 +1,31 @@
 <template>
+  <!-- 根容器：应用的主容器，包含所有布局元素，通过classObj动态应用样式类。使用CSS变量应用主题颜色 -->
   <div
     :class="classObj"
     class="app-wrapper"
     :style="{ '--current-color': theme }"
   >
+    <!-- 移动端遮罩层 -->
     <div
       v-if="device === 'mobile' && sidebar.opened"
       class="drawer-bg"
       @click="handleClickOutside"
     />
+    <!-- 侧边栏组件 -->
     <sidebar v-if="!sidebar.hide" class="sidebar-container" />
+    <!-- 主容器 -->
     <div
       :class="{ hasTagsView: needTagsView, sidebarHide: sidebar.hide }"
       class="main-container"
     >
+      <!-- 固定头部区域 -->
       <div :class="{ 'fixed-header': fixedHeader }">
         <navbar />
         <tags-view v-if="needTagsView" />
       </div>
+      <!-- 主内容区域,显示当前路由的页面内容,所有业务都在此区域渲染 -->
       <app-main />
+      <!-- 右侧设置面板 -->
       <right-panel>
         <settings />
       </right-panel>
