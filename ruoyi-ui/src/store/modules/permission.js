@@ -7,12 +7,13 @@ import InnerLink from "@/layout/components/InnerLink";
 
 const permission = {
   state: {
-    routes: [], // 完整路由表
-    addRoutes: [], // 动态添加的路由
-    defaultRoutes: [], // 默认路由（用于标签页）
-    topbarRouters: [], // 顶部导航路由
-    sidebarRouters: [], // 侧边栏路由
+    routes: [], // 完整路由表，包括常量路由和动态添加的路由
+    addRoutes: [], // 动态添加的路由，根据用户权限动态生成的路由配置数组
+    defaultRoutes: [], // 默认路由，主要用于标签页的管理
+    topbarRouters: [], // 顶部导航栏使用的路由
+    sidebarRouters: [], // 侧边栏菜单使用的路由
   },
+  
   mutations: {
     SET_ROUTES: (state, routes) => {
       state.addRoutes = routes;

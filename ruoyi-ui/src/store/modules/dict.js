@@ -1,50 +1,49 @@
+// 字典管理模块，用于在全局范围内存储和管理键值对数据
 const state = {
-  dict: new Array()
-}
+  dict: new Array(),
+};
 const mutations = {
   SET_DICT: (state, { key, value }) => {
     if (key !== null && key !== "") {
       state.dict.push({
         key: key,
-        value: value
-      })
+        value: value,
+      });
     }
   },
   REMOVE_DICT: (state, key) => {
     try {
       for (let i = 0; i < state.dict.length; i++) {
         if (state.dict[i].key == key) {
-          state.dict.splice(i, 1)
-          return true
+          state.dict.splice(i, 1);
+          return true;
         }
       }
-    } catch (e) {
-    }
+    } catch (e) {}
   },
   CLEAN_DICT: (state) => {
-    state.dict = new Array()
-  }
-}
+    state.dict = new Array();
+  },
+};
 
 const actions = {
   // 设置字典
   setDict({ commit }, data) {
-    commit('SET_DICT', data)
+    commit("SET_DICT", data);
   },
   // 删除字典
   removeDict({ commit }, key) {
-    commit('REMOVE_DICT', key)
+    commit("REMOVE_DICT", key);
   },
   // 清空字典
   cleanDict({ commit }) {
-    commit('CLEAN_DICT')
-  }
-}
+    commit("CLEAN_DICT");
+  },
+};
 
 export default {
   namespaced: true,
   state,
   mutations,
-  actions
-}
-
+  actions,
+};
