@@ -34,7 +34,7 @@
       </app-link>
     </template>
 
-    <!-- 当不满足单个子项条件时，渲染为子菜单，地柜渲染子项 -->
+    <!-- 当不满足单个子项条件时，渲染为子菜单，递归渲染子项 -->
     <el-submenu
       v-else
       ref="subMenu"
@@ -71,6 +71,7 @@ export default {
   name: "SidebarItem",
   components: { Item, AppLink },
   mixins: [FixiOSBug],
+  // 接收父类传递的数据
   props: {
     // route object
     item: {
@@ -119,16 +120,20 @@ export default {
       return false;
     },
     resolvePath(routePath, routeQuery) {
+      // 检查路径是否为外部链接，是，直接返回
       if (isExternal(routePath)) {
         return routePath;
       }
+      // 检查基路径是否为外部链接，是，直接返回
       if (isExternal(this.basePath)) {
         return this.basePath;
       }
+      // 查询参数处理
       if (routeQuery) {
         let query = JSON.parse(routeQuery);
         return { path: path.resolve(this.basePath, routePath), query: query };
       }
+      // 普通路径处理，将基础路径和路由路径合并为完整路径
       return path.resolve(this.basePath, routePath);
     },
   },

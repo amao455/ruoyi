@@ -1,7 +1,8 @@
-<!-- 整个应用内容展示的核心容器,负责渲染路由页并提供缓存和过滤效果 -->
+<!-- todo 整个应用内容展示的核心容器,负责渲染路由页并提供缓存和过滤效果 -->
 <template>
   <section class="app-main">
     <transition name="fade-transform" mode="out-in">
+      <!-- 缓存多个路由组件，但界面中同时只有一个组件显示，不在缓存列表中的组件可以显示，但是不会进行缓存-->
       <keep-alive :include="cachedViews">
         <!-- 仅当当前路由的meta.link属性为false时才渲染，组件显示的位置-->
         <router-view v-if="!$route.meta.link" :key="key" />

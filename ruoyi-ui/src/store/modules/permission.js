@@ -30,7 +30,7 @@ const permission = {
   },
   actions: {
     /**
-     * 生成用户权限路由
+     * todo 超重要 根据用户权限“动态”生成并添加路由
      * 1.通过调用后端API获取用户权限路由
      * 2.通过filterAsyncRouter处理路由
      * 3.更新各种路由状态
@@ -42,15 +42,15 @@ const permission = {
         getRouters().then((res) => {
           const sdata = JSON.parse(JSON.stringify(res.data));
           const rdata = JSON.parse(JSON.stringify(res.data));
-          const sidebarRoutes = filterAsyncRouter(sdata);
-          const rewriteRoutes = filterAsyncRouter(rdata, false, true);
-          const asyncRoutes = filterDynamicRoutes(dynamicRoutes);
+          const sidebarRoutes = filterAsyncRouter(sdata); // 保持嵌套结构，用于菜单显示
+          const rewriteRoutes = filterAsyncRouter(rdata, false, true); // 扁平化处理，用于路由匹配
+          const asyncRoutes = filterDynamicRoutes(dynamicRoutes); // 前端权限验证，防止用户直接访问URl绕过权限控制
           rewriteRoutes.push({ path: "*", redirect: "/404", hidden: true });
-          router.addRoutes(asyncRoutes);
-          commit("SET_ROUTES", rewriteRoutes);
-          commit("SET_SIDEBAR_ROUTERS", constantRoutes.concat(sidebarRoutes));
-          commit("SET_DEFAULT_ROUTES", sidebarRoutes);
-          commit("SET_TOPBAR_ROUTES", sidebarRoutes);
+          router.addRoutes(asyncRoutes); // 将过滤后的动态路由添加到Vue Router中，使这些路由在应用中生效
+          commit("SET_ROUTES", rewriteRoutes); // 设置完整路由
+          commit("SET_SIDEBAR_ROUTERS", constantRoutes.concat(sidebarRoutes)); // 设置侧边栏路由
+          commit("SET_DEFAULT_ROUTES", sidebarRoutes); // 用于标签页显示和默认页面
+          commit("SET_TOPBAR_ROUTES", sidebarRoutes); // 设置顶部导航路由
           resolve(rewriteRoutes);
         });
       });
@@ -58,12 +58,15 @@ const permission = {
   },
 };
 
-// 遍历后台传来的路由字符串，转换为组件对象
+// 遍历后台传来的路由字符串，将其转换为Vue Router可识别的路由对象，并处理组件的动态加载
 /**
- * 将后端返回的路由字符串转换为对象
- * 特殊处理Layout、ParentView、InnerLink组件
- * 动态加载视图组件
- * 递归处理子路由
+ * asyncRouterMap: 后端返回的路由配置数组
+ * lastRouter: 上级路由对象（默认false）
+ * type: 是否需要特殊处理子路由（默认false）
+ * 将字符串形式的组件名转换为实际的Vue组件或动态导入函数
+ * 递归处理所有层级的路由
+ * 为Vue Router准备标准的路由配置格式
+ * 支持路由懒加载，提升应用性能
  */
 function filterAsyncRouter(asyncRouterMap, lastRouter = false, type = false) {
   return asyncRouterMap.filter((route) => {
@@ -71,15 +74,15 @@ function filterAsyncRouter(asyncRouterMap, lastRouter = false, type = false) {
       route.children = filterChildren(route.children);
     }
     if (route.component) {
-      // Layout ParentView 组件特殊处理
       if (route.component === "Layout") {
-        route.component = Layout;
+        route.component = Layout; // 替换为实际的Layout组件
       } else if (route.component === "ParentView") {
-        route.component = ParentView;
+        route.component = ParentView; // 替换为ParentView组件
       } else if (route.component === "InnerLink") {
-        route.component = InnerLink;
+        route.component = InnerLink; // 替换为InnerLink组件
       } else {
-        route.component = loadView(route.component);
+        // 一级菜单可以通过静态路由进行直接访问，但是后面的菜单就不行了
+        route.component = loadView(route.component); // 动态加载其他组件
       }
     }
     if (route.children != null && route.children && route.children.length) {
@@ -92,6 +95,7 @@ function filterAsyncRouter(asyncRouterMap, lastRouter = false, type = false) {
   });
 }
 
+// 处理和扁平化嵌套的子路由结构
 function filterChildren(childrenMap, lastRouter = false) {
   var children = [];
   childrenMap.forEach((el, index) => {
@@ -120,7 +124,7 @@ function filterChildren(childrenMap, lastRouter = false) {
   return children;
 }
 
-// 动态路由遍历，验证是否具备权限
+// 动态路由遍历，验证用户是否具备权限，这个是验证，防止用户通过访问URl绕过权限控制
 /**
  * 遍历动态路由，验证是否具备权限
  * 1.遍历路由配置
@@ -131,19 +135,21 @@ export function filterDynamicRoutes(routes) {
   const res = [];
   routes.forEach((route) => {
     if (route.permissions) {
+      // 如果路由配置了权限
       if (auth.hasPermiOr(route.permissions)) {
-        res.push(route);
+        res.push(route); // 添加到结果中
       }
     } else if (route.roles) {
+      // 如果路由配置了角色
       if (auth.hasRoleOr(route.roles)) {
-        res.push(route);
+        res.push(route); // 添加到结果中
       }
     }
   });
   return res;
 }
 
-// 视图加载函数
+// 动态加载视图组件，实现路由的懒加载
 export const loadView = (view) => {
   if (process.env.NODE_ENV === "development") {
     return (resolve) => require([`@/views/${view}`], resolve);

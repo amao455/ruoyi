@@ -62,6 +62,7 @@ export const constantRoutes = [
     hidden: true,
   },
   {
+    // 路由为空时不会直接使用路由子配置，但由于重定向机制的存在，实际效果是会加载子路由对应的组件内容
     path: "",
     // 使用Layout组件作为父组件，包含侧边栏、头部等布局信息，为子路由提供统一的页面框架
     component: Layout,
