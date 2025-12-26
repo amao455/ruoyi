@@ -3,12 +3,12 @@ import { getToken, setToken, removeToken } from "@/utils/auth";
 
 const user = {
   state: {
-    token: getToken(),
-    id: "",
-    name: "",
-    avatar: "",
-    roles: [],
-    permissions: [],
+    token: getToken(), // 用于身份验证凭据，用于后续API请求的身份验证
+    id: "", // 用户的位移标识符
+    name: "", // 用户名/显示名
+    avatar: "", // 用户头像
+    roles: [], // 用户的角色权限数组
+    permissions: [], // 用户的详细权限标识符数组
   },
 
   mutations: {
