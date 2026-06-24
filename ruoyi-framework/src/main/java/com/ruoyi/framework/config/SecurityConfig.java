@@ -69,6 +69,8 @@ public class SecurityConfig
 
     /**
      * 身份验证实现
+     * 获取一个AuthenticationManager的bean实例对象
+     * AuthenticationManager是负责处理用户认证的核心组件
      */
     @Bean
     public AuthenticationManager authenticationManager()

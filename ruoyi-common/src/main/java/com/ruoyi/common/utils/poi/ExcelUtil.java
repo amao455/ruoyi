@@ -215,8 +215,10 @@ public class ExcelUtil<T>
         this.excludeFields = fields;
     }
 
+    // 将原始数据转换为可写入Excel的内部结构
     public void init(List<T> list, String sheetName, String title, Type type)
     {
+        // 保存导出数据和元信息
         if (list == null)
         {
             list = new ArrayList<T>();
@@ -225,9 +227,14 @@ public class ExcelUtil<T>
         this.sheetName = sheetName;
         this.type = type;
         this.title = title;
+
+        // 解析实体类的@Excel注解，确定哪些字段需要导出及列顺序
         createExcelField();
+        // 创建 Workbook 对象和 Sheet，初始化样式
         createWorkbook();
+        // 创建第一行大标题
         createTitle();
+        // 创建子表头
         createSubHead();
     }
 
@@ -554,9 +561,13 @@ public class ExcelUtil<T>
      */
     public void exportExcel(HttpServletResponse response, List<T> list, String sheetName, String title)
     {
+        // 设置响应内容类型为Excel
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        // 设置字符编码为 utf-8
         response.setCharacterEncoding("utf-8");
+        // 初始化数据（将 list 转换为 Excel 内部数据结构）
         this.init(list, sheetName, title, Type.EXPORT);
+        // 将 Excel 写入 response 的输出流，出发浏览器下载
         exportExcel(response);
     }
 
