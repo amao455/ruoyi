@@ -61,14 +61,22 @@ Vue.prototype.handleTree = handleTree;
 // 全局组件挂载
 // 通过Vue.component将全局组件添加到Vue中
 // 注册后可在任何Vue组件模板中直接使用这些组件
+// 字典标签显示组件，用于把字典数据值渲染成可读标签
 Vue.component("DictTag", DictTag);
+// 分页组件，提供列表分页显示、页码切换、每页数量设置等功能
 Vue.component("Pagination", Pagination);
+// 表格上方的工具栏组件，一般放批量操作按钮、导出、刷新、查询条件按钮等
 Vue.component("RightToolbar", RightToolbar);
+// 富文本编辑器组件
 Vue.component("Editor", Editor);
+// 文件上传组件
 Vue.component("FileUpload", FileUpload);
+// 图片上传组件
 Vue.component("ImageUpload", ImageUpload);
+// 图片预览组件
 Vue.component("ImagePreview", ImagePreview);
 
+// 共同负责把项目级别的指令、插件、页面元信息和字典功能在整个应用中统一启用
 // 自定义指令系统
 Vue.use(directive);
 // 安装项目自定义插件
@@ -87,6 +95,7 @@ DictData.install();
  * please remove it before going online! ! !
  */
 
+// 注册Element UI组件为Vue插件，让整个应用可以使用Elementui UI的组件、指令、弹窗等功能
 Vue.use(Element, {
   size: Cookies.get("size") || "medium", // set element-ui default size
 });

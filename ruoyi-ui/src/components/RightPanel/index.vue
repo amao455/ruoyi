@@ -3,6 +3,7 @@
     <div class="rightPanel-background" />
     <div class="rightPanel">
       <div class="rightPanel-items">
+        <!-- 插槽机制，用来接收从父组件传入的内容 -->
         <slot />
       </div>
     </div>
@@ -11,53 +12,53 @@
 
 <script>
 export default {
-  name: 'RightPanel',
+  name: "RightPanel",
   props: {
     clickNotClose: {
       default: false,
-      type: Boolean
-    }
+      type: Boolean,
+    },
   },
   computed: {
     show: {
       get() {
-        return this.$store.state.settings.showSettings
+        return this.$store.state.settings.showSettings;
       },
       set(val) {
-        this.$store.dispatch('settings/changeSetting', {
-          key: 'showSettings',
-          value: val
-        })
-      }
-    }
+        this.$store.dispatch("settings/changeSetting", {
+          key: "showSettings",
+          value: val,
+        });
+      },
+    },
   },
   watch: {
     show(value) {
       if (value && !this.clickNotClose) {
-        this.addEventClick()
+        this.addEventClick();
       }
-    }
+    },
   },
   mounted() {
-    this.addEventClick()
+    this.addEventClick();
   },
   beforeDestroy() {
-    const elx = this.$refs.rightPanel
-    elx.remove()
+    const elx = this.$refs.rightPanel;
+    elx.remove();
   },
   methods: {
     addEventClick() {
-      window.addEventListener('click', this.closeSidebar)
+      window.addEventListener("click", this.closeSidebar);
     },
     closeSidebar(evt) {
-      const parent = evt.target.closest('.el-drawer__body')
+      const parent = evt.target.closest(".el-drawer__body");
       if (!parent) {
-        this.show = false
-        window.removeEventListener('click', this.closeSidebar)
+        this.show = false;
+        window.removeEventListener("click", this.closeSidebar);
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -66,8 +67,8 @@ export default {
   top: 0;
   left: 0;
   opacity: 0;
-  transition: opacity .3s cubic-bezier(.7, .3, .1, 1);
-  background: rgba(0, 0, 0, .2);
+  transition: opacity 0.3s cubic-bezier(0.7, 0.3, 0.1, 1);
+  background: rgba(0, 0, 0, 0.2);
   z-index: -1;
 }
 
@@ -78,8 +79,8 @@ export default {
   position: fixed;
   top: 0;
   right: 0;
-  box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, .05);
-  transition: all .25s cubic-bezier(.7, .3, .1, 1);
+  box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.05);
+  transition: all 0.25s cubic-bezier(0.7, 0.3, 0.1, 1);
   transform: translate(100%);
   background: #fff;
   z-index: 40000;

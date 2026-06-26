@@ -32,7 +32,7 @@ const permission = {
   actions: {
     /**
      * todo 超重要 根据用户权限“动态”生成并添加路由
-     * 1.通过调用后端API获取用户权限路由
+     * 1.通过调用后端API：/getRouters 获取用户权限路由
      * 2.通过filterAsyncRouter处理路由
      * 3.更新各种路由状态
      * 4.返回处理后的路由

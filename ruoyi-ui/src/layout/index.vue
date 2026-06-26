@@ -5,14 +5,16 @@
     class="app-wrapper"
     :style="{ '--current-color': theme }"
   >
-    <!-- 移动端遮罩层 -->
+    <!-- 移动端遮罩层，只在移动端生效 -->
     <div
       v-if="device === 'mobile' && sidebar.opened"
       class="drawer-bg"
       @click="handleClickOutside"
     />
+
     <!-- 侧边栏组件 -->
     <sidebar v-if="!sidebar.hide" class="sidebar-container" />
+    
     <!-- 主容器 -->
     <div
       :class="{ hasTagsView: needTagsView, sidebarHide: sidebar.hide }"

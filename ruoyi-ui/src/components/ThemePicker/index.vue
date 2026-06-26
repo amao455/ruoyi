@@ -34,6 +34,9 @@ export default {
       await this.setTheme(val)
     }
   },
+  // 组件创建时执行一次初始化
+  // 判断当前全局主题色是否不是默认色
+  // 如果不是默认色，则主动调用 setTheme 方法，更新主题色
   created() {
     if(this.defaultTheme !== ORIGINAL_THEME) {
       this.setTheme(this.defaultTheme)

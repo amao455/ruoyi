@@ -1,3 +1,4 @@
+<!-- 渲染侧边栏菜单，根据路由、主题和折叠状态显示样式与菜单项 -->
 <template>
   <div
     :class="{ 'has-logo': showLogo }"
@@ -59,12 +60,15 @@ export default {
       }
       return path;
     },
+    // 左侧栏是否显示logo
     showLogo() {
       return this.$store.state.settings.sidebarLogo;
     },
+    // 获取主题色
     variables() {
       return variables;
     },
+    // 获取侧栏折叠状态
     isCollapse() {
       return !this.sidebar.opened;
     },
