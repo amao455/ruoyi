@@ -5,7 +5,7 @@ import dialogDragWidth from "./dialog/dragWidth";
 import dialogDragHeight from "./dialog/dragHeight";
 import clipboard from "./module/clipboard";
 
-// 导入多个自定义指令模块
+// 导入多个自定义指令模块，注册到全局
 const install = function (Vue) {
   Vue.directive("hasRole", hasRole);
   Vue.directive("hasPermi", hasPermi);
