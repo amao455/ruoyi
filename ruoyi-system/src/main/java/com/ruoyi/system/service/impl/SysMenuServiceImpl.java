@@ -137,6 +137,7 @@ public class SysMenuServiceImpl implements ISysMenuService
         }
         else
         {
+            // 查询某个正常用户所拥有的正常目录和菜单，用于签单渲染侧边栏菜单树。
             menus = menuMapper.selectMenuTreeByUserId(userId);
         }
         return getChildPerms(menus, 0);

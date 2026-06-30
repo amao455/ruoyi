@@ -204,7 +204,7 @@ export default {
           this.$store
             .dispatch("Login", this.loginForm)
             .then(() => {
-              // 登录成功时调用
+              // 登录成功时调用（编程式导航，触发路由）
               this.$router.push({ path: this.redirect || "/" }).catch(() => {});
             })
             .catch(() => {

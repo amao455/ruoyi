@@ -9,8 +9,11 @@
           : variables.menuLightBackground,
     }"
   >
+    <!-- 顶部logo区域 -->
     <logo v-if="showLogo" :collapse="isCollapse" />
+    <!-- 滚动容器 -->
     <el-scrollbar :class="settings.sideTheme" wrap-class="scrollbar-wrapper">
+      <!-- Element UI菜单组件 -->
       <el-menu
         :default-active="activeMenu"
         :collapse="isCollapse"
@@ -29,6 +32,7 @@
         :collapse-transition="false"
         mode="vertical"
       >
+        <!-- 遍历的是顶层路由数组 -->
         <sidebar-item
           v-for="(route, index) in sidebarRouters"
           :key="route.path + index"

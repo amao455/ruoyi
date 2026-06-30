@@ -29,6 +29,8 @@ router.beforeEach((to, from, next) => {
       // 处理已登录但访问非白名单页面的情况
       next();
     } else {
+      // 用户登录 ≠ 用户信息一直存在内存中
+      // 登录只保证 token 持久化，不保证 Vuex 中的用户信息持久化
       // 处理用户信息的加载情况
       // 判断用户信息是否加载
       // 未加载
@@ -73,6 +75,7 @@ router.beforeEach((to, from, next) => {
   }
 });
 
+// 页面跳转后都会调用该方法
 router.afterEach(() => {
   NProgress.done();
 });

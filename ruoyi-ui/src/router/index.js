@@ -66,7 +66,7 @@ export const constantRoutes = [
     path: "",
     // 使用Layout组件作为父组件，包含侧边栏、头部等布局信息，为子路由提供统一的页面框架
     component: Layout,
-    redirect: "index",
+    redirect: "index", // 重定向到有效的子路由，正常渲染首页
     // 子路由配置
     children: [
       {
@@ -83,7 +83,7 @@ export const constantRoutes = [
     path: "/user",
     component: Layout,
     hidden: true,
-    redirect: "noredirect",
+    redirect: "noredirect", // 重定向到不存在的路径，最终被通配符路由捕获，跳转到 404 页面
     children: [
       {
         path: "profile",

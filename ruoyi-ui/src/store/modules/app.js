@@ -16,7 +16,7 @@ const state = {
 };
 
 const mutations = {
-  // 切换侧边栏的展开/收起状态
+  // 切换侧边栏的展开/收起状态 
   TOGGLE_SIDEBAR: (state) => {
     if (state.sidebar.hide) {
       return false;

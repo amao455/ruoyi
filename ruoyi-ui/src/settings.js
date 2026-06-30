@@ -15,7 +15,7 @@ module.exports = {
   topNav: false,
 
   /**
-   * 是否显示 tagsView
+   * 是否显示标签视图 tagsView
    */
   tagsView: true,
 
@@ -30,11 +30,12 @@ module.exports = {
   sidebarLogo: true,
 
   /**
-   * 是否显示动态标题
+   * 是否显示动态页面标签标题
    */
-  dynamicTitle: false,
+  dynamicTitle: true,
 
   /**
+   * 控制错误日志展示组件在哪些环境中可见
    * @type {string | array} 'production' | ['production', 'development']
    * @description Need show err logs component.
    * The default is only used in the production env

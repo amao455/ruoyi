@@ -34,13 +34,14 @@
       </app-link>
     </template>
 
-    <!-- 当不满足单个子项条件时，渲染为子菜单，递归渲染子项 -->
+    <!-- 负责渲染可展开的多级菜单，通过 <sidebar-item> 递归调用自身来支持任意深度的菜单嵌套，无论后端返回多少层级的路由结构都能正确渲染 -->
     <el-submenu
       v-else
       ref="subMenu"
       :index="resolvePath(item.path)"
       popper-append-to-body
     >
+      <!-- 子菜单标题栏：显示父级菜单的图标和文字 -->
       <template slot="title">
         <item
           v-if="item.meta"
@@ -48,6 +49,7 @@
           :title="item.meta.title"
         />
       </template>
+      <!-- 调用组件自身，递归渲染每个子项 -->
       <sidebar-item
         v-for="(child, index) in item.children"
         :key="child.path + index"

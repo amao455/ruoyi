@@ -7,13 +7,13 @@ import InnerLink from "@/layout/components/InnerLink";
 
 const permission = {
   state: {
-    routes: [], // 完整路由表，包括常量路由和动态添加的路由
-    addRoutes: [], // 动态添加的路由，根据用户权限动态生成的路由配置数组
+    routes: [], // 完整路由表，存储当前用户所有可访问的路由集合
+    addRoutes: [], // 动态添加的路由，存储根据当前用户权限从后端动态生成的路由
     defaultRoutes: [], // 默认路由，主要用于标签页的管理
     topbarRouters: [], // 顶部导航栏使用的路由
-    sidebarRouters: [], // 侧边栏菜单使用的路由
+    sidebarRouters: [], // 侧边栏菜单使用的顶层路由数组
   },
-  
+
   mutations: {
     SET_ROUTES: (state, routes) => {
       state.addRoutes = routes;
@@ -39,20 +39,21 @@ const permission = {
      * */
     GenerateRoutes({ commit }) {
       return new Promise((resolve) => {
+        // 路由生成后才继续后续逻辑
         // 向后端请求路由数据
         getRouters().then((res) => {
           const sdata = JSON.parse(JSON.stringify(res.data));
           const rdata = JSON.parse(JSON.stringify(res.data));
-          const sidebarRoutes = filterAsyncRouter(sdata); // 保持嵌套结构，用于菜单显示
-          const rewriteRoutes = filterAsyncRouter(rdata, false, true); // 扁平化处理，用于路由匹配
+          const sidebarRoutes = filterAsyncRouter(sdata); // 保持嵌套结构，用于生成侧边栏菜单显示
+          const rewriteRoutes = filterAsyncRouter(rdata, false, true); // 扁平化处理，用于路由匹配，用于实际路由表和页面跳转
           const asyncRoutes = filterDynamicRoutes(dynamicRoutes); // 前端权限验证，防止用户直接访问URl绕过权限控制
-          rewriteRoutes.push({ path: "*", redirect: "/404", hidden: true });
+          rewriteRoutes.push({ path: "*", redirect: "/404", hidden: true }); // 给最终路由表追加一个通配符 404 重定向，避免未匹配路由出现异常
           router.addRoutes(asyncRoutes); // 将过滤后的动态路由添加到Vue Router中，使这些路由在应用中生效
           commit("SET_ROUTES", rewriteRoutes); // 设置完整路由
           commit("SET_SIDEBAR_ROUTERS", constantRoutes.concat(sidebarRoutes)); // 设置侧边栏路由
           commit("SET_DEFAULT_ROUTES", sidebarRoutes); // 用于标签页显示和默认页面
           commit("SET_TOPBAR_ROUTES", sidebarRoutes); // 设置顶部导航路由
-          resolve(rewriteRoutes);
+          resolve(rewriteRoutes); //成功后返回处理后的路由列表，供调用处继续使用
         });
       });
     },
