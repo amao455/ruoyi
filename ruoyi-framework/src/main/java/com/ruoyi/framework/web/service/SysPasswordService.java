@@ -42,13 +42,15 @@ public class SysPasswordService
     }
 
     /**
-     * ，验证登录密码并管理密码错误尝试次数
+     * 验证登录密码并管理密码错误尝试次数
      * @param user
      */
     public void validate(SysUser user)
     {
+        // 在上下文中获取用户输入的相关信息
         Authentication usernamePasswordAuthenticationToken = AuthenticationContextHolder.getContext();
         String username = usernamePasswordAuthenticationToken.getName();
+        // 用户密码明文信息
         String password = usernamePasswordAuthenticationToken.getCredentials().toString();
 
         // 在redis中查询当前用户的错误尝试次数
@@ -67,13 +69,14 @@ public class SysPasswordService
         // 判断当前登录用户的密码和数据库保存的密码是否一致（密码是加密状态）
         if (!matches(user, password))
         {
+            // 不一致
             retryCount = retryCount + 1;
             redisCache.setCacheObject(getCacheKey(username), retryCount, lockTime, TimeUnit.MINUTES);
             throw new UserPasswordNotMatchException();
         }
         else
         {
-            //匹配时，清空错误尝试次数
+            //一致，清空错误尝试次数
             clearLoginRecordCache(username);
         }
     }
@@ -81,6 +84,8 @@ public class SysPasswordService
     // 井用户输入的密码和数据库保存的密码进行匹配
     public boolean matches(SysUser user, String rawPassword)
     {
+        // 第一个参数：明文密码
+        // 第二个参数：数据库加密密码
         return SecurityUtils.matchesPassword(rawPassword, user.getPassword());
     }
 

@@ -4,7 +4,7 @@ import java.util.List;
 import com.ruoyi.generator.domain.GenTable;
 
 /**
- * 业务 数据层
+ * 业务数据层
  * 
  * @author ruoyi
  */

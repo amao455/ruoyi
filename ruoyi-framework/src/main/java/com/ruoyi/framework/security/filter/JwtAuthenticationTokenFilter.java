@@ -31,6 +31,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException
     {
+        // 根据前端携带的令牌获取用户信息
         LoginUser loginUser = tokenService.getLoginUser(request);
         if (StringUtils.isNotNull(loginUser) && StringUtils.isNull(SecurityUtils.getAuthentication()))
         {
@@ -39,6 +40,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter
             // todo 第三个参数权限可能没有使用
             // 获取权限信息封装到Authentication中，存入SecurityContextHolder
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginUser, null, loginUser.getAuthorities());
+            // 补充认证上下文信息，方便后续做日志记录、审计、风控和会话管理等。
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         }

@@ -43,14 +43,14 @@ public class UserDetailsServiceImpl implements UserDetailsService
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
     {
-        // 根据用户名查询用户的相关信息
+        // 根据用用户名从表用户中查询用户的相关信息
         SysUser user = userService.selectUserByUserName(username);
         if (StringUtils.isNull(user))
         {
             log.info("登录用户：{} 不存在.", username);
             throw new ServiceException(MessageUtils.message("user.not.exists"));
         }
-        // 用于数据库使用的是逻辑删除，因此这里需要增加判断
+        // 如果数据库使用是逻辑删除的情况下，用于数据库使用的是逻辑删除，因此这里需要增加判断
         else if (UserStatus.DELETED.getCode().equals(user.getDelFlag()))
         {
             log.info("登录用户：{} 已被删除.", username);
@@ -63,7 +63,7 @@ public class UserDetailsServiceImpl implements UserDetailsService
             throw new ServiceException(MessageUtils.message("user.blocked"));
         }
 
-        // 这里的user是用户从数据库中查询出来的
+        // 确定了，用户表中存在该用户，这里的user是用户从数据库中查询出来的，进行验证
         passwordService.validate(user);
 
         // 将认真通过的信息封装成SpringSecurity可以识别的格式
@@ -72,7 +72,7 @@ public class UserDetailsServiceImpl implements UserDetailsService
 
     public UserDetails createLoginUser(SysUser user)
     {
-        // 查询了当前用户的权限信息
+        // 查询数据库获取当前用户的权限信息
         return new LoginUser(user.getUserId(), user.getDeptId(), user, permissionService.getMenuPermission(user));
     }
 }
